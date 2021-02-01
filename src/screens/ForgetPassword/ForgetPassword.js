@@ -69,7 +69,10 @@ const ForgetPassword = () => {
       <Button
         title='Send Code'
         stretch
-       onPress={loading ? null : handleSubmit}
+       onPress={loading ? null : 
+       ()=> Navigation.push({ name: 'ForgotPasswordwithcode' })
+        // handleSubmit
+      }
         processing={loading}
         mt={50}
         ml={10}

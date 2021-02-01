@@ -42,18 +42,29 @@ const ForgotPasswordwithcode = (props) => {
 
   const renderForm = ({ injectFormProps, handleSubmit }) => (
     <View stretch ph={1} center mt={10} mh={5} >
-     <RNImage source={require('../../assets/images/splash.png')}
-        style={{
-          height: 100,
-          width: 100,
-          borderRadius: 20,
-        }}
-
-      />
-      <Text bold color={colors.gray} size={10} mv={15}>{I18n.t('dalall')}</Text>
-      
-      <Text bold color={colors.gray} size={10} mv={5}>{I18n.t('enterCode')}</Text>
-      
+     
+     <Text stretch bold color={colors.black} size={13} mv={15}>{'reset password'}</Text>
+     
+     <Text
+        stretch
+        ml={10}
+       center
+        size={4}
+        onPress={() =>Navigation.push('ForgetPassword')}
+        color={colors.lightgray}      
+      >
+      {"We've sent a code to"}
+      </Text>
+      <Text
+        stretch
+        ml={10}
+       center
+        size={4}
+        onPress={() =>Navigation.push('ForgetPassword')}
+        color={colors.black}      
+      >
+      {"Ahmed@hydrastudioz.co"}
+      </Text>
       <CodeInput
         keyboardType="decimal-pad"
         activeColor={colors.gray}
@@ -72,12 +83,12 @@ const ForgotPasswordwithcode = (props) => {
         onFulfill={(code) => setCode(code)}
       />
       <Button
-        title={I18n.t('confirm')}
+        title={'Reset Password'}
         stretch
         // onPress={loading ? null : handleSubmit}
         onPress={() =>Navigation.push('Resetpassword')}
          color={colors.white}
-        backgroundColor={colors.orange}
+        backgroundColor={colors.primary}
         processing={loading}
         borderRadius={20} 
         mv={20}
