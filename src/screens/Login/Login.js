@@ -47,14 +47,7 @@ const Login = (props) => {
 
   const renderForm = ({ injectFormProps, handleSubmit }) => (
     <View stretch ph={1} center mt={10} mh={5} >
-      {/* <RNImage source={require('../../assets/images/splash.png')}
-        style={{
-          height: 150,
-          width: 100,
-          borderRadius: 20,
-        }}
-
-      /> */}
+    
 
     <Text stretch bold color={colors.black} size={14} mv={15}>{'Login'}</Text>
       <Input

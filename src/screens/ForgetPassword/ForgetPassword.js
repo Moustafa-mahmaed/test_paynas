@@ -40,14 +40,7 @@ const ForgetPassword = () => {
   const renderForm = ({ injectFormProps, handleSubmit }) => (
     
      <View stretch ph={1} center mt={10} mh={5} >
-      <RNImage source={require('../../assets/images/splash.png')}
-        style={{
-          height: 150,
-          width: 100,
-          borderRadius: 20,
-        }}
-
-      />
+      <Text stretch bold color={colors.black} size={13} mv={15}>{'reset password'}</Text>
      
       <Input
      
@@ -55,47 +48,35 @@ const ForgetPassword = () => {
         {...injectFormProps('email')}
         placeholder={I18n.t('enterEmail')}
         
-        style={{ marginTop:40 ,borderBottomColor:colors.gray ,borderBottomWidth:.8 
-        , borderBottomLeftRadius: 0,
-         borderBottomRightRadius: 0,
+        style={{ marginTop:40 ,
+         backgroundColor:colors.gray,
          marginLeft:10,
          marginRight:10,
 
          }}
       />
 
+<Text
+        stretch
+        ml={10}
+       center
+        size={4}
+        onPress={() =>Navigation.push('ForgetPassword')}
+        color={colors.lightgray}      
+      >
+      {"we will  send confirmation code"}
+      </Text>
       <Button
-        title={I18n.t('send')}
+        title='Send Code'
         stretch
        onPress={loading ? null : handleSubmit}
         processing={loading}
-        m={10}
-        
-        color={colors.white}
-        backgroundColor={colors.orange}
-        borderRadius={20} 
+        mt={50}
+        ml={10}
+        mr={10}
+        color={colors.white}   
+        borderRadius={10} 
       />
-<View row mv={10} >
-      
-       <Text
-        center
-        onPress={() =>Navigation.push('Login')}
-        color={colors.orange}  
-        ph={15}    
-      >
-      {I18n.t('login')}
-      </Text>
-
-       <Text
-        center
-        onPress={() =>Navigation.push('SignUp')}
-        color={colors.orange}   
-        ph={15}      
-      >
-      {I18n.t('signUp')}
-      </Text>
-</View>
-
 
     </View >
   );
