@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
-import { View, Text, Wrapper, label, Input, showError, Icon, Button, Form, ScrollView, Image, Navigation, moderateScale, responsiveWidth } from '../../ui';
+import { View, Text, Wrapper, label, Input, showError, Icon, Button, Form, ScrollView, Navigation, moderateScale, responsiveWidth } from '../../ui';
 import { Formik } from 'formik';
-import { Image as RNImage } from 'react-native'
+import { Image } from 'react-native'
 import Axios from 'axios';
 import I18n from 'react-native-i18n';
 import colors from '../../ui/defaults/colors';
@@ -19,13 +19,26 @@ const ForgotPasswordwithcode = (props) => {
   const [code, setCode] = useState(null);
 
   const onSubmit = values => {
+    console.log("values here")
+    console.log(values)
     setLoading(true)
     Axios
-      .post(`${API_ENDPOINT}Users/verificationCode?code=${code}&email=${props.email}`)
+      .post(`${API_ENDPOINT}/app/users/reset-password/code`
+      , {
+        email: values.email,
+        code: Number(values.code)
+      })
       .then(res => {
-        console.log("*******************", res.data)
+      
+        console.log("*******************", res)
+       
         setLoading(false)
-        Navigation.push({ name: 'Resetpassword', passProps: { email: props.email } })
+         Navigation.push({ name: 'Resetpassword',passProps: 
+         {
+            email: values.email, 
+          code: values.code
+
+          } })
       })
       .catch(error => {
         setLoading(false)
@@ -35,21 +48,26 @@ const ForgotPasswordwithcode = (props) => {
           showError(I18n.t('ui-networkConnectionError'));
           return;
         } else {
-          showError(error.response.data);
+          showError("Code inCorrect ");
         }
       });
   };
 
-  const renderForm = ({ injectFormProps, handleSubmit }) => (
+  const renderForm = ({ injectFormProps, handleSubmit ,setFieldValue }) => (
     <View stretch ph={1} center mt={10} mh={5} >
      
-     <Text stretch bold color={colors.black} size={13} mv={15}>{'reset password'}</Text>
-     
+     <Text bold color={colors.black} size={13} mv={15}>{I18n.t('resetPassword')} </Text>
+
+     <Image  source={require('../../assets/images/filled_line.png')} 
+      style={{width: responsiveWidth(30),
+        height: responsiveWidth(20) , borderRadius:10}}/>
+
      <Text
-        stretch
-        ml={10}
+        center
+        ml={7}
+        mt={7}
        center
-        size={4}
+        size={8}
         onPress={() =>Navigation.push('ForgetPassword')}
         color={colors.lightgray}      
       >
@@ -58,35 +76,44 @@ const ForgotPasswordwithcode = (props) => {
       <Text
         stretch
         ml={10}
+        mt={3}
        center
-        size={4}
-        onPress={() =>Navigation.push('ForgetPassword')}
+        size={6}
         color={colors.black}      
       >
-      {"Ahmed@hydrastudioz.co"}
+        {`${props.email}`}
+      
+
       </Text>
       <CodeInput
         keyboardType="decimal-pad"
-        activeColor={colors.gray}
-        inactiveColor={colors.gray}
+        activeColor={colors.textgray}
+        inactiveColor={colors.textgray}
         // ref="codeInputRef1"
-        codeLength={4}
-        secureTextEntry
+        codeLength={5}
+        // secureTextEntry
         containerStyle={{ alignSelf: 'center' }}
         codeInputStyle={{
+          color:'black',
           backgroundColor: colors.white,
-          marginHorizontal: moderateScale(10), borderWidth: 2, borderRadius: 10
+          marginHorizontal: moderateScale(6), borderWidth: 2, borderRadius: 10
         }}
         className={'border-box'}
-        size={responsiveWidth(15)}
+        size={responsiveWidth(13)}
         inputPosition='left'
-        onFulfill={(code) => setCode(code)}
+        onFulfill={(code) => {
+          setCode(code)
+          setFieldValue('code', code)
+          setFieldValue('email', props.email)
+        }}
       />
+        {/* {...injectFormProps('code')} */}
       <Button
-        title={'Reset Password'}
+        title={I18n.t('changepassword')}
         stretch
-        // onPress={loading ? null : handleSubmit}
-        onPress={() =>Navigation.push('Resetpassword')}
+        onPress={loading ? null : handleSubmit}
+        // onPress={() =>Navigation.push('Resetpassword')}
+
          color={colors.white}
         backgroundColor={colors.primary}
         processing={loading}
@@ -97,6 +124,9 @@ const ForgotPasswordwithcode = (props) => {
 
     </View >
   );
+console.log(";;;;;;;;;;;;;")
+console.log(props)
+console.log(";;;;;;;;;;;;;")
 
   return (
     <Wrapper >
@@ -109,7 +139,7 @@ const ForgotPasswordwithcode = (props) => {
           }}
           onSubmit={onSubmit}
           render={renderForm}
-        // validationSchema={validationSchema}
+         validationSchema={validationSchema}
         />
       </ScrollView>
 

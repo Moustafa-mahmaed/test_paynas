@@ -143,7 +143,10 @@
  "location3": "Giza, Egypt",
  "netleezEmailText": "EMAIL",
  "netleezEmail": "info@netleez.com",
- "folowText": "FOLLOW"
+ "folowText": "FOLLOW",
+ "resetPassword": "Reset Password",
+ "sendCode": "Send Code",
+ "incorrectReEnterPassword": "Both password need to be the same"
 
   
 

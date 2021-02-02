@@ -9,12 +9,12 @@ export const validationSchema = values => {
       .required(`${I18n.t('password')} ${I18n.t('required1')}`),
     reenterpassword: yup
       .string()
-      .required()
+      .required(`${I18n.t('reenterpassword')} ${I18n.t('required1')}`)
       .when("newpassword", {
     is: val => (val && val.length > 0 ? true : false),
     then: yup.string().oneOf(
-      [yup.ref("newpassword")],
-      "Both password need to be the same"
+      [yup.ref("newpassword")], `${I18n.t('incorrectReEnterPassword')}`
+      
     )
   })
       

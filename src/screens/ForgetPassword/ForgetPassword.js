@@ -15,13 +15,19 @@ const ForgetPassword = () => {
   const rtl = useSelector(state => state.lang.rtl);
 
   const onSubmit = values => {
+    
+    console.log("*******************", values)
+
     setLoading(true)
     Axios
-      .post(`${API_ENDPOINT}/api/v1Identity/ForegetPassword`)
+      .post(`${API_ENDPOINT}/app/users/reset-password/email`,
+      {
+        email: values.email,
+      })
       .then(res => {
         console.log("*******************", res.data)
         setLoading(false)
-          Navigation.push({ name: 'ForgotPasswordwithcode', passProps: { email: res.data.UserEmail } })
+          Navigation.push({ name: 'ForgotPasswordwithcode', passProps: { email: values.email } })
       })
       .catch(error => {
         setLoading(false)
@@ -29,10 +35,15 @@ const ForgetPassword = () => {
         console.log("error ", error)
          console.log("error ", error.response)
         if (!error.response) {
-          showError(I18n.t('ui-networkConnectionError'));
+           
+           showError(I18n.t('ui-networkConnectionError'));
+           
+
           return;
         } else {
-          showError(error.error);
+          showError("email not valid");
+          
+
         }
       });
   };
@@ -40,7 +51,7 @@ const ForgetPassword = () => {
   const renderForm = ({ injectFormProps, handleSubmit }) => (
     
      <View stretch ph={1} center mt={10} mh={5} >
-      <Text stretch bold color={colors.black} size={13} mv={15}>{'reset password'}</Text>
+      <Text bold color={colors.black} size={13} mv={15}> {I18n.t('resetPassword')} </Text>
      
       <Input
      
@@ -58,20 +69,21 @@ const ForgetPassword = () => {
 
 <Text
         stretch
-        ml={10}
+        // ml={10}
        center
-        size={4}
+        size={8}
+        mt={2}
         onPress={() =>Navigation.push('ForgetPassword')}
         color={colors.lightgray}      
       >
       {"we will  send confirmation code"}
       </Text>
       <Button
-        title='Send Code'
+        title={I18n.t('sendCode')}
         stretch
        onPress={loading ? null : 
-       ()=> Navigation.push({ name: 'ForgotPasswordwithcode' })
-        // handleSubmit
+      
+         handleSubmit
       }
         processing={loading}
         mt={50}

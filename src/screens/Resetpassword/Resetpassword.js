@@ -12,14 +12,22 @@ import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import TitleHeader from '../../components/TitleHeader';
 
-const Resetpassword = () => {
+const Resetpassword = (props) => {
   const [loading, setLoading] = useState(false);
   const rtl = useSelector(state => state.lang.rtl);
 
   const onSubmit = values => {
-    setLoading(true)
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+    console.log(values)
+    console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
+     setLoading(true)
+    
     Axios
-      .post(`${API_ENDPOINT}/api/v1Identity/ResetPassword`)
+      .patch(`${API_ENDPOINT}/app/users/reset-password/reset`, {
+        email: props.email, 
+          code: props.code,
+          password: values.newpassword
+      })
       .then(res => {
         console.log("*******************", res.data)
         setLoading(false)
@@ -38,7 +46,7 @@ const Resetpassword = () => {
       });
   };
 
-  const renderForm = ({ injectFormProps, handleSubmit }) => (
+  const renderForm = ({ injectFormProps, handleSubmit , setFieldValue}) => (
     <View stretch ph={1} center mt={10} mh={5} >
        <RNImage source={require('../../assets/images/splash.png')}
         style={{
@@ -64,6 +72,7 @@ const Resetpassword = () => {
         placeholder={I18n.t('reenterpassword')}
         secure
         showSecureEye
+        
       />
 
       <Button
@@ -74,7 +83,7 @@ const Resetpassword = () => {
         processing={loading}
         m={10}
         color={colors.white}
-        backgroundColor={colors.orange}
+        backgroundColor={colors.primary}
         borderRadius={20} 
       />
 

@@ -18,7 +18,7 @@ const Login = (props) => {
   const onSubmit = values => {
     setLoading(true)
     Axios
-      .post(`${API_ENDPOINT}/api/v1Identity/Login` , {
+      .post(`${API_ENDPOINT}/app/users/login` , {
     email: values.email,
     password: values.password
   })
@@ -40,16 +40,14 @@ const Login = (props) => {
           showError(I18n.t('ui-networkConnectionError'));
           return;
         } else {
-          showError(error.response.data.errors);
+          showError("invalid email");
         }
       });
   };
 
   const renderForm = ({ injectFormProps, handleSubmit }) => (
     <View stretch ph={1} center mt={10} mh={5} >
-    
-
-    <Text stretch bold color={colors.black} size={14} mv={15}>{'Login'}</Text>
+    <Text stretch bold color={colors.black} size={14} mv={15}>{I18n.t('login')}</Text>
       <Input
        style={{ marginTop:20 ,borderColor:colors.gray ,borderWidth:.8 
         , borderRadius: 10,
